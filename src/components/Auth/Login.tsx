@@ -12,12 +12,11 @@ import {
   Grid,
   Link,
 } from '@mui/material'
-import { useDispatch } from 'react-redux'
+
 import { loginAsync } from '../../redux/slices/authSlice'
-import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import { Credentials } from '../../types/credentials'
-import { getHistoryAsync } from '../../redux/slices/historySlice'
+import { useAppDispatch } from '../../hooks/useAppDispatch'
 
 const login = yup
   .object({
@@ -38,7 +37,7 @@ const Login: React.FC = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<Credentials> = (data) => {

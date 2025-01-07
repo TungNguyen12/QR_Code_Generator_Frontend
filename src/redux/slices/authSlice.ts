@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '../../utils/api'
 import { getHistoryAsync } from './historySlice'
 import { Credentials } from '../../types/credentials'
