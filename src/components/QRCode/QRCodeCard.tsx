@@ -43,7 +43,10 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
         {title ? title : 'Sample QR code'}
       </Typography>
 
-      <QRCodeSVG value={qrCode} size={100} />
+      <QRCodeSVG
+        value={qrCode ? qrCode : 'https://www.google.com/'}
+        size={100}
+      />
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button
