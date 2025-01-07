@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { QRCode } from '../../types/qrcode'
+import { QRCodeType } from '../../types/qrcode'
 
 interface QRCodeState {
-  qrCodes: QRCode[]
+  qrCodes: QRCodeType[]
 }
 
 const initialState: QRCodeState = {
@@ -13,7 +13,7 @@ const qrCodeSlice = createSlice({
   name: 'qrCode',
   initialState,
   reducers: {
-    setQRCodes: (state, action: PayloadAction<QRCode[]>) => {
+    setQRCodes: (state, action: PayloadAction<QRCodeType[]>) => {
       state.qrCodes = action.payload
     },
   },

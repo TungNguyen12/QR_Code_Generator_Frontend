@@ -13,12 +13,6 @@ const QRCard = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
 }))
 
-const QRCodeImage = styled('img')({
-  maxWidth: '50%',
-  borderRadius: '10px',
-  border: `4px solid rgb(107, 9, 255)`,
-})
-
 interface QRCodeCardProps {
   qrCode: string | null
   title: string | null
