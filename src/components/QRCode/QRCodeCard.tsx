@@ -1,6 +1,6 @@
 // QRCodeCard.tsx
 import React from 'react'
-import { Box, IconButton, Button, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { Save, Share, Download } from '@mui/icons-material'
 import { styled } from '@mui/system'
 import { QRCodeSVG } from 'qrcode.react'
