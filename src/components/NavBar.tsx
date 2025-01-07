@@ -4,6 +4,8 @@ import Box from '@mui/material/Box'
 import { Toolbar, Button, CardMedia, Link } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useNavigate } from 'react-router-dom'
+import navbarwave from '../assets/images/navbarwave.svg'
+import platform from '../assets/images/platform.png'
 
 const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
@@ -19,7 +21,7 @@ const NavBar = () => {
           backgroundColor: 'black',
           width: '100%',
           height: '72px',
-          backgroundImage: `url('../assets/images/navbarwave.svg')`,
+          backgroundImage: `url(${navbarwave})`,
           backgroundRepeat: 'no-repeat',
         }}
       >
@@ -43,7 +45,7 @@ const NavBar = () => {
             >
               <CardMedia
                 component="img"
-                image={'../assets/images/platform.png'}
+                image={platform}
                 alt={'Junction'}
                 style={{
                   objectFit: 'contain',

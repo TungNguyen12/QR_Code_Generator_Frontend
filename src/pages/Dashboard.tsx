@@ -14,6 +14,8 @@ import {
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
 import api from '../utils/api'
+import junction from '../assets/images/junction.png'
+import sample_qr from '../assets/images/sample_qr.png'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { Download, Save, Share } from '@mui/icons-material'
@@ -151,7 +153,7 @@ const Dashboard: React.FC = () => {
         >
           <Avatar
             alt="Company Logo"
-            src={'../assets/images/platform.png'}
+            src={junction}
             sx={{ width: 150, height: 150 }} // Adjust size as needed
           />
         </Box>
@@ -296,7 +298,7 @@ const Dashboard: React.FC = () => {
         </Typography>
 
         <QRCodeImage
-          src={qrCode ? qrCode : 'assets/images/platform.png'}
+          src={qrCode ? qrCode : sample_qr}
           alt={qrCode ? 'Generated QR Code' : 'Sample QR'}
         />
 

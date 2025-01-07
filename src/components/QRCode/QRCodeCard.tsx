@@ -3,9 +3,7 @@ import React from 'react'
 import { Box, IconButton, Button, Typography } from '@mui/material'
 import { Save, Share, Download } from '@mui/icons-material'
 import { styled } from '@mui/system'
-import sample_qr from '../../public/images/sample_qr.png'
 import { QRCodeSVG } from 'qrcode.react'
-import { QRCodeType } from '../../types/qrcode'
 
 const QRCard = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -86,7 +84,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
         </Button>
         <Button
           variant="contained"
-          onClick={handleDownload}
+          onClick={() => qrCode && handleDownload(qrCode)}
           sx={{
             borderRadius: '13px',
             textTransform: 'none',
@@ -99,9 +97,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
           }}
           disabled={!qrCode}
         >
-          <IconButton sx={{ color: 'white' }}>
-            <Download />
-          </IconButton>
+          <Download sx={{ color: 'white' }} />
         </Button>
       </Box>
     </QRCard>

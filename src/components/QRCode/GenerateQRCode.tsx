@@ -14,10 +14,10 @@ import {
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
 import api from '../../utils/api'
-import junction from '../../public/images/junction.png'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import { useAppSelector } from '../../hooks/useAppSelector'
 import QRCodeCard from './QRCodeCard' // Import the QRCodeCard component
+import junction from '../../assets/images/junction.png'
 
 // Custom Styled Components
 const FormContainer = styled(Paper)(({ theme }) => ({
