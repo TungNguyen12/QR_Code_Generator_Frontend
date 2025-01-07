@@ -1,15 +1,15 @@
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 
-const BackHomeButton = () => {
+const BackDashboardButton = () => {
   const navigate = useNavigate()
-  const handleToHome = () => {
+  const handleToDashboard = () => {
     navigate(`dashboard`)
   }
 
   return (
     <Button
-      onClick={handleToHome}
+      onClick={handleToDashboard}
       sx={{
         margin: '25px auto',
         bgcolor: '#1976d2',
@@ -20,9 +20,9 @@ const BackHomeButton = () => {
         },
       }}
     >
-      Explore more books
+      Back to Dashboard
     </Button>
   )
 }
 
-export default BackHomeButton
+export default BackDashboardButton

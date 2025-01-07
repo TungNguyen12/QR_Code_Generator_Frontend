@@ -8,21 +8,18 @@ import { useAppSelector } from '../hooks/useAppSelector'
 import { Alert, Box, Card, CardContent, Grid, Stack } from '@mui/material'
 
 // Toast
-import BackHomeButton from '../components/BackHomeButton'
-import { useAppDispatch } from '../hooks/useAppDispatch'
-import { getHistoryAsync } from '../redux/slices/historySlice'
+import BackDashboardButton from '../components/BackDashboardButton'
 import api from '../utils/api'
 import { QRCodeType } from '../types/qrcode'
 import QRCodeCard from '../components/QRCode/QRCodeCard'
+import { useCallback } from 'react'
 
 const History = () => {
   const [qrCodes, setQrCodes] = useState<QRCodeType[]>([])
   const [error, setError] = useState('')
   const { token } = useAppSelector((state) => state.auth)
 
-  const dispatch = useAppDispatch()
-
-  const getHistory = async () => {
+  const getHistory = useCallback(async () => {
     try {
       const response = await api.get('/qrcodes/my_qrcodes', {
         headers: {
@@ -31,18 +28,18 @@ const History = () => {
       })
 
       const list = response.data as QRCodeType[]
-      // Convert the response to a Blob URL
-      setQrCodes(list) // Add new QR code to the list
+      setQrCodes(list)
       console.log(list)
     } catch (error) {
       setError('Failed to generate QR code. Please try again.')
     }
-  }
+  }, [token])
+
   const handleDownload = (qrCode: string) => {
     if (qrCode) {
       const link = document.createElement('a')
       link.href = qrCode
-      link.download = 'qrcode.png' // Or generate a unique name
+      link.download = 'qrcode.png'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -51,10 +48,9 @@ const History = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(getHistoryAsync(token))
       getHistory()
     }
-  }, [])
+  }, [token, getHistory])
 
   return (
     <Box sx={{ width: '70%', margin: 'auto' }}>
@@ -66,13 +62,11 @@ const History = () => {
           margin: 'auto',
         }}
       >
-        {/* {isLoading && <CircularProgress sx={{ margin: '100px auto' }} />} */}
-
         {qrCodes && (
           <>
             <Box>
               <Card sx={{ marginBottom: '30px' }}>
-                <CardContent>Active books</CardContent>
+                <CardContent>Your history</CardContent>
               </Card>
               <Grid container spacing={{ xs: 2, md: 3 }} columns={12}>
                 {qrCodes.length > 0 ? (
@@ -107,10 +101,10 @@ const History = () => {
                   >
                     <Stack>
                       <Alert severity="error" sx={{ marginTop: '2rem' }}>
-                        You have not borrowed any books yet, let find one 🧠!
+                        {error}
                       </Alert>
                     </Stack>
-                    <BackHomeButton />
+                    <BackDashboardButton />
                   </Box>
                 )}
               </Grid>

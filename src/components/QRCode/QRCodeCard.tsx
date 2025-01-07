@@ -24,8 +24,6 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
   title,
   handleDownload,
 }) => {
-  console.log(qrCode)
-
   return (
     <QRCard>
       <Typography
@@ -57,10 +55,9 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
           }}
           disabled={!qrCode}
         >
-          <IconButton sx={{ color: 'white' }}>
-            <Save />
-          </IconButton>
+          <Save sx={{ color: 'white' }} />
         </Button>
+
         <Button
           variant="contained"
           sx={{
@@ -75,10 +72,9 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
           }}
           disabled={!qrCode}
         >
-          <IconButton sx={{ color: 'white' }}>
-            <Share />
-          </IconButton>
+          <Share sx={{ color: 'white' }} />
         </Button>
+
         <Button
           variant="contained"
           onClick={() => qrCode && handleDownload(qrCode)}

@@ -9,7 +9,6 @@ import {
   Snackbar,
   Alert,
   Avatar,
-  IconButton,
 } from '@mui/material'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
@@ -317,9 +316,7 @@ const Dashboard: React.FC = () => {
             }}
             disabled={!qrCode}
           >
-            <IconButton sx={{ color: 'white' }}>
-              <Save />
-            </IconButton>
+            <Save sx={{ color: 'white' }} />
           </StyledButton>
           <StyledButton
             variant="contained"
@@ -335,9 +332,7 @@ const Dashboard: React.FC = () => {
             }}
             disabled={!qrCode}
           >
-            <IconButton sx={{ color: 'white' }}>
-              <Share />
-            </IconButton>
+            <Share sx={{ color: 'white' }} />
           </StyledButton>
           <StyledButton
             variant="contained"
@@ -354,9 +349,7 @@ const Dashboard: React.FC = () => {
             }}
             disabled={!qrCode}
           >
-            <IconButton sx={{ color: 'white' }}>
-              <Download />
-            </IconButton>
+            <Download sx={{ color: 'white' }} />
           </StyledButton>
         </Box>
       </QRCard>
