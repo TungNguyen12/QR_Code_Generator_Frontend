@@ -14,12 +14,9 @@ import {
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { styled } from '@mui/material/styles'
 import api from '../utils/api'
-import junction from '../public/images/junction.png'
-import sample_qr from '../public/images/sample_qr.png'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { Download, Save, Share } from '@mui/icons-material'
-import DataInput from '../components/DataInput'
 
 // Custom Styled Components
 const FormContainer = styled(Paper)(({ theme }) => ({
@@ -154,7 +151,7 @@ const Dashboard: React.FC = () => {
         >
           <Avatar
             alt="Company Logo"
-            src={junction}
+            src={'../assets/images/platform.png'}
             sx={{ width: 150, height: 150 }} // Adjust size as needed
           />
         </Box>
@@ -189,15 +186,6 @@ const Dashboard: React.FC = () => {
               setUrl(e.target.value)
             }
           />
-          {/* <DataInput
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setUrl(e.target.value)
-            }
-            value="url"
-            size="small"
-            type="text"
-            label="Input your URL* to generate QR code"
-          /> */}
           <TextField
             fullWidth
             sx={{
@@ -233,7 +221,6 @@ const Dashboard: React.FC = () => {
               sx={{
                 width: '25%',
                 '& .MuiInputBase-root': {
-                  // Target the input base
                   height: 40,
                 },
               }}
@@ -309,7 +296,7 @@ const Dashboard: React.FC = () => {
         </Typography>
 
         <QRCodeImage
-          src={qrCode ? qrCode : sample_qr}
+          src={qrCode ? qrCode : 'assets/images/platform.png'}
           alt={qrCode ? 'Generated QR Code' : 'Sample QR'}
         />
 

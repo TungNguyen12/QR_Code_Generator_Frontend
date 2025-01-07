@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { QRCode } from '../../types/qrcode'
+import { QRCodeType } from '../../types/qrcode'
 import api from '../../utils/api'
 
 interface History {
-  qrCodes: QRCode[]
+  qrCodes: QRCodeType[]
 }
 
 // Initial State
@@ -51,5 +51,4 @@ const historySlice = createSlice({
 export const { clearHistoryLogout } = historySlice.actions
 
 // Reducer
-// const historyReducer = historySlice.reducer
 export default historySlice.reducer

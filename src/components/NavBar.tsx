@@ -1,7 +1,6 @@
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
-import junctionplatform from '../public/images/platform.png'
-import navbarwave from '../public/images/navbarwave.svg'
+
 import { Toolbar, Button, CardMedia, Link } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +19,7 @@ const NavBar = () => {
           backgroundColor: 'black',
           width: '100%',
           height: '72px',
-          backgroundImage: `url(${navbarwave})`,
+          backgroundImage: `url('../assets/images/navbarwave.svg')`,
           backgroundRepeat: 'no-repeat',
         }}
       >
@@ -44,7 +43,7 @@ const NavBar = () => {
             >
               <CardMedia
                 component="img"
-                image={junctionplatform}
+                image={'../assets/images/platform.png'}
                 alt={'Junction'}
                 style={{
                   objectFit: 'contain',
@@ -60,7 +59,6 @@ const NavBar = () => {
           >
             <StyledButton
               onClick={() => navigate(`/`)}
-              // disabled={loading}
               sx={{
                 width: '100px',
                 marginLeft: '16px',
@@ -79,7 +77,6 @@ const NavBar = () => {
             <StyledButton
               onClick={() => navigate(`/register`)}
               variant="contained"
-              // disabled={loading}
               sx={{
                 width: '100px',
                 marginLeft: '16px',

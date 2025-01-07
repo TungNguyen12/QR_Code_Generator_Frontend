@@ -7,9 +7,6 @@ import { useAppSelector } from '../hooks/useAppSelector'
 // MUI Components
 import { Alert, Box, Card, CardContent, Grid, Stack } from '@mui/material'
 
-// Custom Components
-// import LoanBookCard from '../components/LoanBookCard'
-
 // Toast
 import BackHomeButton from '../components/BackHomeButton'
 import { useAppDispatch } from '../hooks/useAppDispatch'
@@ -33,7 +30,7 @@ const History = () => {
         },
       })
 
-      const list = response.data as QRCode[]
+      const list = response.data as QRCodeType[]
       // Convert the response to a Blob URL
       setQrCodes(list) // Add new QR code to the list
       console.log(list)
