@@ -15,7 +15,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import { styled } from '@mui/material/styles'
 import { Download, Save, Share } from '@mui/icons-material'
 import api from '../utils/api'
-import junction from '../assets/images/junction.png'
+import brandlogo from '../assets/images/brandlogo.png'
 import sample_qr from '../assets/images/sample_qr.png'
 import { useAppSelector } from '../hooks/useAppSelector'
 
@@ -170,7 +170,7 @@ const Dashboard: React.FC = () => {
         >
           <Avatar
             alt="Company Logo"
-            src={junction}
+            src={brandlogo}
             sx={{ width: 150, height: 150 }}
           />
         </Box>

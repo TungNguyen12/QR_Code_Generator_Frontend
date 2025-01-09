@@ -1,3 +1,4 @@
+import Footer from '../components/Footer'
 import NavBar from '../components/NavBar'
 import { Outlet } from 'react-router-dom'
 
@@ -8,6 +9,7 @@ const Layout = () => {
       <main style={{ minHeight: '100%', margin: '50px auto' }}>
         <Outlet />
       </main>
+      <Footer />
     </>
   )
 }

@@ -76,7 +76,7 @@ const NavBar = () => {
               <CardMedia
                 component="img"
                 image={platform}
-                alt={'Junction'}
+                alt={'Junction Platform'}
                 style={{ objectFit: 'contain' }}
               />
             </Link>

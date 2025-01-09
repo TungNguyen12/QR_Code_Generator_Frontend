@@ -5,7 +5,7 @@ import BackDashboardButton from '../components/BackDashboardButton'
 import api from '../utils/api'
 import { QRCodeType } from '../types/qrcode'
 import QRCodeCard from '../components/QRCodeCard'
-import junction from '../assets/images/junction.png'
+import brandlogo from '../assets/images/brandlogo.png'
 import { useCallback } from 'react'
 
 const History = () => {
@@ -71,8 +71,8 @@ const History = () => {
                 padding={'10px'}
               >
                 <Avatar
-                  alt="Company Logo"
-                  src={junction}
+                  alt="Company brand logo"
+                  src={brandlogo}
                   sx={{ width: 150, height: 150 }} // Adjust size as needed
                 />
                 <Typography
