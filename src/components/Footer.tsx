@@ -10,13 +10,13 @@ const FooterContainer = styled(Box)(({ theme }) => ({
   backgroundImage: `url(${navbarwave})`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
-  backgroundPosition: 'center', // Ensure background is centered
-  transform: 'rotate(180deg)', // Flip the background image upside down
+  backgroundPosition: 'center',
+  transform: 'rotate(180deg)',
   padding: theme.spacing(3, 0),
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  position: 'relative', // Keeps it at the bottom
+  position: 'relative',
   bottom: 0,
 }))
 
