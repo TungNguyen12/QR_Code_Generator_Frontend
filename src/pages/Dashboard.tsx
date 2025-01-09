@@ -132,8 +132,8 @@ const Dashboard: React.FC = () => {
     const formData = new FormData()
     formData.append('url', url)
     formData.append('title', title)
-    formData.append('foregroundColor', foregroundColor)
-    formData.append('backgroundColor', backgroundColor)
+    formData.append('foreground_color', foregroundColor)
+    formData.append('background_color', backgroundColor)
     if (logo) formData.append('logo', logo)
 
     setLoading(true)
