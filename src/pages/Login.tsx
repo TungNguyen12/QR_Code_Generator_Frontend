@@ -2,15 +2,15 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { loginSchema } from '../../validation/schemas'
-import { loginAsync } from '../../redux/slices/authSlice'
-import { useAppDispatch } from '../../hooks/useAppDispatch'
-import { useAppSelector } from '../../hooks/useAppSelector'
+import { loginSchema } from '../validation/schemas'
+import { loginAsync } from '../redux/slices/authSlice'
+import { useAppDispatch } from '../hooks/useAppDispatch'
+import { useAppSelector } from '../hooks/useAppSelector'
 
 import { Button, Box, Typography, Container, Grid, Link } from '@mui/material'
 
-import { Credentials } from '../../types/credentials'
-import InputField from '../InputField'
+import { Credentials } from '../types/credentials'
+import InputField from '../components/InputField'
 
 const Login: React.FC = () => {
   const token = useAppSelector((state) => state.auth.token)
