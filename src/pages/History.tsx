@@ -4,7 +4,7 @@ import { Alert, Avatar, Box, Grid, Stack, Typography } from '@mui/material'
 import BackDashboardButton from '../components/BackDashboardButton'
 import api from '../utils/api'
 import { QRCodeType } from '../types/qrcode'
-import QRCodeCard from '../components/qr/QRCodeCard'
+import QRCodeCard from '../components/QRCodeCard'
 import junction from '../assets/images/junction.png'
 import { useCallback } from 'react'
 

@@ -280,7 +280,7 @@ const Dashboard: React.FC = () => {
             textAlign: 'center',
           }}
         >
-          {qrCode ? 'Your QR code' : 'Sample QR code'}
+          {qrCode ? title : 'Sample QR code'}
         </Typography>
         <QRCodeImage
           src={qrCode ? qrCode : sample_qr}
