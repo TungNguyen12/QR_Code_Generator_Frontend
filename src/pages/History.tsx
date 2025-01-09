@@ -1,13 +1,6 @@
-// React
 import { useEffect, useState } from 'react'
-
-// Redux
 import { useAppSelector } from '../hooks/useAppSelector'
-
-// MUI Components
 import { Alert, Avatar, Box, Grid, Stack, Typography } from '@mui/material'
-
-// Toast
 import BackDashboardButton from '../components/BackDashboardButton'
 import api from '../utils/api'
 import { QRCodeType } from '../types/qrcode'
