@@ -1,5 +1,8 @@
 // GenerateQRCode.tsx
 import React, { useState } from 'react'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
   TextField,
   Button,
@@ -44,8 +47,27 @@ const PageContainer = styled(Box)(({ theme }) => ({
   },
 }))
 
+const generateCode = yup
+  .object({
+    title: yup.string().required('Title is required'),
+    url: yup.string().url().required('Image is required and has to be an URL'),
+    backgroundColor: yup.string().optional(),
+    foregroundColor: yup.string().optional(),
+    logo: yup
+      .mixed()
+      .test(
+        'fileSize',
+        'File is too large, maximum size is 2MB',
+        (value) =>
+          !value || (value instanceof File && value.size <= 2 * 1024 * 1024)
+      )
+      .optional(),
+  })
+  .required()
+
 const GenerateQRCode: React.FC = () => {
   const [url, setUrl] = useState('')
+  const [title, setTitle] = useState('')
   const [foregroundColor, setForegroundColor] = useState('#000000')
   const [backgroundColor, setBackgroundColor] = useState('#ffffff')
   const [logo, setLogo] = useState<File | null>(null)
@@ -71,22 +93,38 @@ const GenerateQRCode: React.FC = () => {
     document.body.removeChild(link)
   }
 
-  const handleSubmit = async () => {
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value)
+  }
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(generateCode),
+  })
+
+  const onSubmit = async (data: any) => {
     if (!url) {
       setError('Please enter a valid URL')
       return
     }
 
     const formData = new FormData()
-    formData.append('url', url)
-    formData.append('foregroundColor', foregroundColor)
-    formData.append('backgroundColor', backgroundColor)
-    if (logo) formData.append('logo', logo)
+    formData.append('url', data.url)
+    formData.append('title', data.title)
+    formData.append('backgroundColor', data.backgroundColor)
+    formData.append('foregroundColor', data.foregroundColor)
+
+    if (data.logo && data.logo[0]) {
+      formData.append('logo', data.logo[0])
+    }
 
     setLoading(true)
     setError('')
-    setQrCode('') // Clear previous QR codes
-
+    setQrCode('')
     try {
       const response = await api.post('/qrcodes/generate', formData, {
         headers: {
@@ -95,9 +133,8 @@ const GenerateQRCode: React.FC = () => {
         responseType: 'blob',
       })
 
-      // Convert the response to a Blob URL
       const qrBlobUrl = URL.createObjectURL(response.data)
-      setQrCode((prev) => qrBlobUrl) // Add new QR code to the array
+      setQrCode(qrBlobUrl)
       setSuccess(true)
     } catch (error) {
       setError('Failed to generate QR code. Please try again.')
@@ -129,7 +166,7 @@ const GenerateQRCode: React.FC = () => {
           <Avatar
             alt="Company Logo"
             src={junction}
-            sx={{ width: 150, height: 150 }} // Adjust size as needed
+            sx={{ width: 150, height: 150 }}
           />
         </Box>
         <Typography
@@ -143,10 +180,31 @@ const GenerateQRCode: React.FC = () => {
 
         <TextField
           fullWidth
-          size="small"
           label="Input your URL* to generate QR code"
+          size="small"
+          id="url"
           value={url}
+          error={Boolean(errors.url?.message)}
+          helperText={errors.url?.message}
+          {...register('url')}
           onChange={(e) => setUrl(e.target.value)}
+        />
+        <TextField
+          fullWidth
+          sx={{
+            '& .MuiInputBase-root': {
+              height: 40,
+            },
+          }}
+          size="small"
+          type="text"
+          label="QR title"
+          id="title"
+          error={Boolean(errors.title?.message)}
+          helperText={errors.title?.message}
+          {...register('title')}
+          value={title}
+          onChange={handleTitle}
         />
 
         <Box display="flex">
@@ -155,6 +213,10 @@ const GenerateQRCode: React.FC = () => {
             size="small"
             type="color"
             label="Foreground Color"
+            id="foregroundColor"
+            error={Boolean(errors.foregroundColor?.message)}
+            helperText={errors.foregroundColor?.message}
+            {...register('foregroundColor')}
             value={foregroundColor}
             onChange={(e) => setForegroundColor(e.target.value)}
           />
@@ -175,13 +237,19 @@ const GenerateQRCode: React.FC = () => {
           startIcon={<CloudUploadIcon />}
         >
           Upload Logo (Optional)
-          <input type="file" hidden onChange={handleFileChange} />
+          <input
+            type="file"
+            id="logo"
+            {...register('logo')}
+            hidden
+            onChange={handleFileChange}
+          />
         </Button>
 
         <StyledButton
           variant="contained"
           color="primary"
-          onClick={handleSubmit}
+          onClick={handleSubmit(onSubmit)}
           disabled={loading}
           sx={{
             width: '100%',

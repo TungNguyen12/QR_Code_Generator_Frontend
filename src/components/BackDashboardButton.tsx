@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 const BackDashboardButton = () => {
   const navigate = useNavigate()
   const handleToDashboard = () => {
-    navigate(`dashboard`)
+    navigate(`/dashboard`)
   }
 
   return (

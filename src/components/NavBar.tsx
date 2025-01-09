@@ -1,9 +1,10 @@
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-
-import { Toolbar, Button, CardMedia, Link } from '@mui/material'
+import React from 'react'
+import { AppBar, Box, Toolbar, Button, CardMedia, Link } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from '../hooks/useAppSelector'
+import { useAppDispatch } from '../hooks/useAppDispatch'
+import { logout } from '../redux/slices/authSlice'
 import navbarwave from '../assets/images/navbarwave.svg'
 import platform from '../assets/images/platform.png'
 
@@ -11,8 +12,41 @@ const StyledButton = styled(Button)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }))
 
+const NavBarButton: React.FC<{
+  label: string
+  onClick: () => void
+  variant: 'contained' | 'outlined'
+  sx?: object
+}> = ({ label, onClick, variant, sx }) => {
+  return (
+    <StyledButton
+      onClick={onClick}
+      variant={variant}
+      sx={{
+        width: '100px',
+        marginLeft: '16px',
+        borderRadius: '13px',
+        textTransform: 'none',
+        fontWeight: 'bold',
+        fontSize: '12px',
+        display: 'flex',
+        alignItems: 'center',
+        ...sx,
+      }}
+    >
+      {label}
+    </StyledButton>
+  )
+}
+
 const NavBar = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const token = useAppSelector((state) => state.auth.token)
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   return (
     <AppBar position="static">
@@ -31,14 +65,10 @@ const NavBar = () => {
             minHeight: '72px',
             display: 'flex',
             justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <Box
-            sx={{
-              width: '100px',
-              height: '72px',
-            }}
-          >
+          <Box sx={{ width: '100px' }}>
             <Link
               onClick={() => navigate(`/dashboard`)}
               sx={{ cursor: 'pointer' }}
@@ -47,51 +77,40 @@ const NavBar = () => {
                 component="img"
                 image={platform}
                 alt={'Junction'}
-                style={{
-                  objectFit: 'contain',
-                }}
+                style={{ objectFit: 'contain' }}
               />
             </Link>
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <StyledButton
-              onClick={() => navigate(`/`)}
-              sx={{
-                width: '100px',
-                marginLeft: '16px',
-                borderRadius: '13px',
-                textTransform: 'none',
-                fontWeight: 'bold',
-                fontSize: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                backgroundColor: 'white',
-                textDecorationColor: 'primary',
-              }}
-            >
-              Login
-            </StyledButton>
-            <StyledButton
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            {token ? (
+              <>
+                <NavBarButton
+                  label="Logout"
+                  onClick={handleLogout}
+                  variant="outlined"
+                  sx={{ backgroundColor: 'white' }}
+                />
+                <NavBarButton
+                  label="My QR"
+                  onClick={() => navigate(`/history`)}
+                  variant="contained"
+                  sx={{ backgroundColor: '#7056bf' }}
+                />
+              </>
+            ) : (
+              <NavBarButton
+                label="Login"
+                onClick={() => navigate(`/login`)}
+                variant="outlined"
+                sx={{ backgroundColor: 'white' }}
+              />
+            )}
+            <NavBarButton
+              label="Register"
               onClick={() => navigate(`/register`)}
               variant="contained"
-              sx={{
-                width: '100px',
-                marginLeft: '16px',
-                borderRadius: '13px',
-                textTransform: 'none',
-                fontWeight: 'bold',
-                fontSize: '12px',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              Register
-            </StyledButton>
+            />
           </Box>
         </Toolbar>
       </Box>
