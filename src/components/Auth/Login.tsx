@@ -1,50 +1,45 @@
-import * as yup from 'yup'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-
-import React, { useState } from 'react'
-import {
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Container,
-  Grid,
-  Link,
-} from '@mui/material'
-
+import { loginSchema } from '../../validation/schemas'
 import { loginAsync } from '../../redux/slices/authSlice'
-import { useNavigate } from 'react-router-dom'
-import { Credentials } from '../../types/credentials'
 import { useAppDispatch } from '../../hooks/useAppDispatch'
+import { useAppSelector } from '../../hooks/useAppSelector'
 
-const login = yup
-  .object({
-    email: yup.string().email().required(),
-    password: yup.string().min(1).max(20).required(),
-  })
-  .required()
+import { Button, Box, Typography, Container, Grid, Link } from '@mui/material'
+
+import { Credentials } from '../../types/credentials'
+import InputField from '../InputField'
 
 const Login: React.FC = () => {
+  const token = useAppSelector((state) => state.auth.token)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(login),
+  } = useForm<Credentials>({
+    resolver: yupResolver(loginSchema),
   })
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-
-  const onSubmit: SubmitHandler<Credentials> = (data) => {
+  const onSubmit: SubmitHandler<Credentials> = async (data) => {
     dispatch(loginAsync(data))
-    navigate('/dashboard')
     reset()
   }
+
+  useEffect(() => {
+    if (token) {
+      const timeoutId = setTimeout(() => {
+        navigate('/dashboard')
+        console.log(token)
+      }, 450)
+      return () => clearTimeout(timeoutId)
+    }
+  }, [token, navigate])
 
   return (
     <Container maxWidth="xs">
@@ -60,29 +55,18 @@ const Login: React.FC = () => {
           Login
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
-          <TextField
-            fullWidth
-            id="email"
+          <InputField
             label="Email"
-            value={email}
-            error={Boolean(errors.email?.message)}
-            helperText={errors.email?.message}
-            {...register('email')}
-            onChange={(e) => setEmail(e.target.value)}
-            sx={{ mb: 1, mt: 2 }}
+            name="email"
+            register={register}
+            error={errors.email}
           />
-          <TextField
-            fullWidth
-            id="password"
+          <InputField
             label="Password"
+            name="password"
             type="password"
-            value={password}
-            error={Boolean(errors.password?.message)}
-            helperText={errors.password?.message}
-            autoComplete="new-password"
-            {...register('password')}
-            onChange={(e) => setPassword(e.target.value)}
-            sx={{ mb: 1, mt: 2 }}
+            register={register}
+            error={errors.password}
           />
           <Grid item xs={12}>
             <Button

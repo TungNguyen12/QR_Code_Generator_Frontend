@@ -1,27 +1,31 @@
-import React, { useState } from 'react'
-import {
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Container,
-  Grid,
-  Link,
-} from '@mui/material'
-import axios from 'axios'
+import React from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, Box, Typography, Container, Grid, Link } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
+import api from '../../utils/api'
+import { RegisterForm } from '../../types/registerForm'
+import { registerSchema } from '../../validation/schemas'
+import InputField from '../InputField'
+
 const Register: React.FC = () => {
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  })
+
+  const onSubmit: SubmitHandler<RegisterForm> = async (data) => {
     try {
-      await axios.post('/auth/register', { username, email, password })
-      alert('Registration successful!')
+      await api.post('/auth/register', data)
+      navigate('/login')
+      reset()
     } catch (error) {
       alert('Registration failed!')
     }
@@ -40,31 +44,25 @@ const Register: React.FC = () => {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <TextField
-            fullWidth
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+          <InputField
             label="Username"
-            variant="outlined"
-            margin="normal"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            register={register}
+            error={errors.username}
           />
-          <TextField
-            fullWidth
+          <InputField
             label="Email"
-            variant="outlined"
-            margin="normal"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            register={register}
+            error={errors.email}
           />
-          <TextField
-            fullWidth
+          <InputField
             label="Password"
+            name="password"
             type="password"
-            variant="outlined"
-            margin="normal"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            register={register}
+            error={errors.password}
           />
 
           <Grid item xs={12}>
