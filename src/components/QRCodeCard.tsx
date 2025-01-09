@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Button, Typography } from '@mui/material'
-import { Save, Share, Download } from '@mui/icons-material'
+import { Delete, Share, Download } from '@mui/icons-material'
+
 import { styled } from '@mui/system'
 import { QRCodeSVG } from 'qrcode.react'
 
@@ -72,7 +73,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <IconButton
           onClick={() => handleDelete(_id)}
-          icon={<Save sx={{ color: 'white' }} />}
+          icon={<Delete sx={{ color: 'white' }} />}
           disabled={!qrCode}
         />
         <IconButton
