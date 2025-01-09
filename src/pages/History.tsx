@@ -103,7 +103,7 @@ const History = () => {
                   Your QR
                 </Typography>
               </Box>
-              <Grid container spacing={{ xs: 2, md: 3 }} columns={12}>
+              <Grid container spacing={{ xs: 2, sm: 3, md: 4 }} columns={12}>
                 {qrCodes.length > 0 ? (
                   qrCodes.map((qrCode) => (
                     <Grid
@@ -111,10 +111,11 @@ const History = () => {
                       item
                       xs={12}
                       sm={6}
-                      md={3}
+                      md={4}
+                      lg={4}
                       sx={{
                         display: 'flex',
-                        alignItems: 'center',
+                        alignItems: 'stretch',
                         justifyContent: 'center',
                       }}
                     >
