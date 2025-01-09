@@ -95,22 +95,23 @@ const NavBar = () => {
                   label="My QR"
                   onClick={() => navigate(`/history`)}
                   variant="contained"
-                  sx={{ backgroundColor: '#7056bf' }}
                 />
               </>
             ) : (
-              <NavBarButton
-                label="Login"
-                onClick={() => navigate(`/login`)}
-                variant="outlined"
-                sx={{ backgroundColor: 'white' }}
-              />
+              <>
+                <NavBarButton
+                  label="Login"
+                  onClick={() => navigate(`/login`)}
+                  variant="outlined"
+                  sx={{ backgroundColor: 'white' }}
+                />
+                <NavBarButton
+                  label="Register"
+                  onClick={() => navigate(`/register`)}
+                  variant="contained"
+                />
+              </>
             )}
-            <NavBarButton
-              label="Register"
-              onClick={() => navigate(`/register`)}
-              variant="contained"
-            />
           </Box>
         </Toolbar>
       </Box>

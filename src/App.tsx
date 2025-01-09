@@ -20,12 +20,18 @@ const App: React.FC = () => {
       <History />
     </CheckLogin>
   )
+  const CheckedToken = () => (
+    <CheckLogin>
+      <Dashboard />
+    </CheckLogin>
+  )
 
   const router = createBrowserRouter([
     {
       path: '',
       element: <Layout />,
       children: [
+        { path: '', element: <CheckedToken /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: 'dashboard', element: <CheckedDashboard /> },
