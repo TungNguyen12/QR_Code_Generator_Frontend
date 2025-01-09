@@ -29,14 +29,29 @@ const History = () => {
     }
   }, [token])
 
-  const handleDownload = (qrCode: string) => {
-    if (qrCode) {
+  const handleDownload = (url: string) => {
+    if (url) {
       const link = document.createElement('a')
-      link.href = qrCode
+      link.href = url
       link.download = 'qrcode.png'
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+    }
+  }
+
+  // Handle QR code deletion
+  const handleDelete = async (id: string) => {
+    try {
+      await api.delete(`/qrcodes/qrcodes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      // Update UI by filtering out the deleted QR code
+      setQrCodes(qrCodes.filter((qrCode) => qrCode._id !== id))
+    } catch (error) {
+      setError('Failed to delete QR code. Please try again.')
     }
   }
 
@@ -85,7 +100,7 @@ const History = () => {
                     textAlign: 'center',
                   }}
                 >
-                  Your QR Codes
+                  Your QR
                 </Typography>
               </Box>
               <Grid container spacing={{ xs: 2, md: 3 }} columns={12}>
@@ -106,7 +121,9 @@ const History = () => {
                       <QRCodeCard
                         qrCode={qrCode.url}
                         title={qrCode.title}
-                        handleDownload={() => handleDownload(qrCode.url)}
+                        _id={qrCode._id}
+                        handleDownload={handleDownload}
+                        handleDelete={handleDelete}
                       />
                     </Grid>
                   ))

@@ -13,9 +13,11 @@ const QRCard = styled(Box)(({ theme }) => ({
 }))
 
 interface QRCodeCardProps {
-  qrCode: string | null
-  title: string | null
+  qrCode: string
+  title: string
   handleDownload: (url: string) => void
+  handleDelete: (id: string) => void
+  _id: string
 }
 
 const IconButton: React.FC<{
@@ -44,18 +46,13 @@ const IconButton: React.FC<{
   )
 }
 
-const QRCodeCard: React.FC<QRCodeCardProps> = ({ qrCode, title }) => {
-  const handleDownload = () => {
-    if (qrCode) {
-      const link = document.createElement('a')
-      link.href = qrCode
-      link.download = 'qrcode.png'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    }
-  }
-
+const QRCodeCard: React.FC<QRCodeCardProps> = ({
+  qrCode,
+  title,
+  _id,
+  handleDownload,
+  handleDelete,
+}) => {
   return (
     <QRCard>
       <Typography
@@ -74,7 +71,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({ qrCode, title }) => {
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <IconButton
-          onClick={() => {}}
+          onClick={() => handleDelete(_id)}
           icon={<Save sx={{ color: 'white' }} />}
           disabled={!qrCode}
         />
@@ -84,7 +81,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({ qrCode, title }) => {
           disabled={!qrCode}
         />
         <IconButton
-          onClick={handleDownload}
+          onClick={() => handleDownload(qrCode)}
           icon={<Download sx={{ color: 'white' }} />}
           disabled={!qrCode}
         />
