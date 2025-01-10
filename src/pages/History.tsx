@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { Alert, Avatar, Box, Grid, Stack, Typography } from '@mui/material'
-import BackDashboardButton from '../components/BackDashboardButton'
+
 import api from '../utils/api'
 import { QRCodeType } from '../types/qrcode'
 import QRCodeCard from '../components/QRCodeCard'
 import brandlogo from '../assets/images/brandlogo.png'
 import { useCallback } from 'react'
+import BackButton from '../components/BackButton'
 const History = () => {
   const [qrCodes, setQrCodes] = useState<QRCodeType[]>([])
   const [error, setError] = useState('')
@@ -142,7 +143,7 @@ const History = () => {
                         {error}
                       </Alert>
                     </Stack>
-                    <BackDashboardButton />
+                    <BackButton to="/dashboard" text="Dashboard" />
                   </Box>
                 )}
               </Grid>

@@ -12,22 +12,13 @@ const QRCard = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
 }))
 
-interface QRCodeCardProps {
-  qrCode: string
-  title: string
-  handleDownload: (url: string, filename: string) => void
-  handleDelete: (id: string) => void
-  _id: string
-  background_color: string
-  foreground_color: string
-  created_at: string
-}
-
-const IconButton: React.FC<{
+interface IconButtonProps {
   onClick: () => void
   icon: React.ReactNode
   disabled: boolean
-}> = ({ onClick, icon, disabled }) => {
+}
+
+const IconButton: React.FC<IconButtonProps> = ({ onClick, icon, disabled }) => {
   return (
     <Button
       onClick={onClick}
@@ -49,6 +40,17 @@ const IconButton: React.FC<{
   )
 }
 
+interface QRCodeCardProps {
+  qrCode: string
+  title?: string
+  handleDownload: (url: string, filename: string) => void
+  handleDelete: (id: string) => void
+  _id: string
+  background_color: string
+  foreground_color: string
+  created_at: string
+}
+
 const QRCodeCard: React.FC<QRCodeCardProps> = ({
   qrCode,
   title,
@@ -62,7 +64,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
   const qrCodeRef = useRef<SVGSVGElement>(null)
 
   const handleDownloadImage = () => {
-    if (qrCodeRef.current && title) {
+    if (qrCodeRef.current) {
       const svg = qrCodeRef.current
       if (svg) {
         const svgData = new XMLSerializer().serializeToString(svg)
@@ -70,14 +72,13 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
         const ctx = canvas.getContext('2d')
 
         if (ctx) {
-          // Check if ctx is not null
           const img = new Image()
           img.onload = () => {
             canvas.width = img.width
             canvas.height = img.height
             ctx.drawImage(img, 0, 0)
             const pngUrl = canvas.toDataURL('image/png')
-            handleDownload(pngUrl, title + '.png')
+            handleDownload(pngUrl, title ? title : 'Unknown' + '.png')
           }
           img.src =
             'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgData)
@@ -96,7 +97,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
         gutterBottom
         style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'center' }}
       >
-        {title ? title : 'Sample QR code'}
+        {title ? title : 'Unknown'}
       </Typography>
 
       <QRCodeSVG

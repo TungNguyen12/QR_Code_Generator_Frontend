@@ -1,15 +1,21 @@
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 
-const BackDashboardButton = () => {
+interface BackButtonProps {
+  to: string
+  text?: string
+  sx?: object
+}
+
+const BackButton: React.FC<BackButtonProps> = ({ to, text = 'Back', sx }) => {
   const navigate = useNavigate()
-  const handleToDashboard = () => {
-    navigate(`/dashboard`)
+  const handleNavigation = () => {
+    navigate(to)
   }
 
   return (
     <Button
-      onClick={handleToDashboard}
+      onClick={handleNavigation}
       sx={{
         margin: '25px auto',
         bgcolor: '#1976d2',
@@ -18,11 +24,12 @@ const BackDashboardButton = () => {
           bgcolor: '#1976d2',
           opacity: '0.9',
         },
+        ...sx,
       }}
     >
-      Back to Dashboard
+      {text}
     </Button>
   )
 }
 
-export default BackDashboardButton
+export default BackButton

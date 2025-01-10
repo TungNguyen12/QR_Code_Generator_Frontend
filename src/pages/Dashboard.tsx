@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import {
-  TextField,
-  Button,
   Typography,
   Paper,
   Box,
@@ -9,15 +7,19 @@ import {
   Snackbar,
   Alert,
   Avatar,
+  Button,
+  styled,
 } from '@mui/material'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
-import { styled } from '@mui/material/styles'
-import { Download, Save, Share } from '@mui/icons-material'
-import api from '../utils/api'
 import brandlogo from '../assets/images/brandlogo.png'
-import sample_qr from '../assets/images/sample_qr.png'
-import { useAppSelector } from '../hooks/useAppSelector'
+import {
+  StyledButton,
+  InputField,
+  PageContainer,
+} from '../components/ui/StyledComponents'
+import useQrCodeForm from '../hooks/useQrCodeForm'
+import QRCodeDisplay from '../components/QrCodeDisplay'
 
 // Custom Styled Components
 const FormContainer = styled(Paper)(({ theme }) => ({
@@ -29,64 +31,35 @@ const FormContainer = styled(Paper)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
 }))
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  margin: '8px',
-  width: '100%',
-  borderRadius: '13px',
-  textTransform: 'none',
-  fontWeight: 'bold',
-  fontSize: '16px',
-  display: 'flex',
-  alignItems: 'center',
-}))
-
-const InputField = styled(TextField)(({ theme }) => ({
-  '& .MuiInputBase-root': {
-    height: 40,
-  },
-  marginBottom: '18px',
-}))
-
-const PageContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  margin: 'auto',
-  alignItems: 'center',
-  gap: theme.spacing(4),
-  [theme.breakpoints.down('md')]: {
-    flexDirection: 'column',
-  },
-}))
-
-const QRCard = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  flex: 1,
-  gap: theme.spacing(2),
-  minWidth: '40%',
-}))
-
-const QRCodeImage = styled('img')({
-  maxWidth: '50%',
-  borderRadius: '10px',
-  border: `4px solid rgb(107, 9, 255)`,
-})
-
 const Dashboard: React.FC = () => {
-  const [url, setUrl] = useState('')
-  const [title, setTitle] = useState('')
-  const [foregroundColor, setForegroundColor] = useState('#000000')
-  const [backgroundColor, setBackgroundColor] = useState('#ffffff')
-  const [logo, setLogo] = useState<File | null>(null)
   const [qrCode, setQrCode] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-
-  const { token } = useAppSelector((state) => state.auth)
+  const [error, setError] = useState<string>('')
   const urlInputRef = useRef<HTMLInputElement | null>(null)
   const titleInputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleSuccess = (url: string) => {
+    setQrCode(url)
+    setSuccess(true)
+  }
+
+  const handleError = (error: string) => {
+    setError(error)
+  }
+
+  const {
+    url,
+    title,
+    foregroundColor,
+    backgroundColor,
+    setUrl,
+    setTitle,
+    setForegroundColor,
+    setBackgroundColor,
+    setLogo,
+    loading,
+    handleSubmit,
+  } = useQrCodeForm({ onSuccess: handleSuccess, onError: handleError })
 
   useEffect(() => {
     if (urlInputRef.current && document.activeElement !== urlInputRef.current) {
@@ -118,42 +91,6 @@ const Dashboard: React.FC = () => {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-    }
-  }
-
-  // Submit QR Code Generation
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!url) {
-      setError('Please enter a valid URL')
-      return
-    }
-
-    const formData = new FormData()
-    formData.append('url', url)
-    formData.append('title', title)
-    formData.append('foreground_color', foregroundColor)
-    formData.append('background_color', backgroundColor)
-    if (logo) formData.append('logo', logo)
-
-    setLoading(true)
-    setError('')
-    setQrCode(null)
-    setSuccess(false)
-
-    try {
-      const response = await api.post('/qrcodes/generate', formData, {
-        headers: { Authorization: `Bearer ${token}` },
-        responseType: 'blob',
-      })
-
-      const qrBlobUrl = URL.createObjectURL(response.data)
-      setQrCode(qrBlobUrl)
-      setSuccess(true)
-    } catch (error) {
-      setError('Failed to generate QR code. Please try again.')
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -192,6 +129,7 @@ const Dashboard: React.FC = () => {
             onChange={(e) => {
               setUrl(e.target.value)
               setSuccess(false)
+              setQrCode(null)
             }}
             inputRef={urlInputRef}
           />
@@ -204,6 +142,7 @@ const Dashboard: React.FC = () => {
             onChange={(e) => {
               setTitle(e.target.value)
               setSuccess(false)
+              setQrCode(null)
             }}
             inputRef={titleInputRef}
           />
@@ -259,50 +198,29 @@ const Dashboard: React.FC = () => {
         </Box>
 
         {error && (
-          <Snackbar open={true} autoHideDuration={6000}>
+          <Snackbar
+            open={true}
+            autoHideDuration={6000}
+            onClose={() => setError('')}
+          >
             <Alert severity="error">{error}</Alert>
           </Snackbar>
         )}
         {success && (
-          <Snackbar open={true} autoHideDuration={6000}>
+          <Snackbar
+            open={true}
+            autoHideDuration={6000}
+            onClose={() => setSuccess(false)}
+          >
             <Alert severity="success">QR Code generated successfully!</Alert>
           </Snackbar>
         )}
       </FormContainer>
-
-      <QRCard>
-        <Typography
-          variant="h4"
-          gutterBottom
-          style={{
-            fontSize: '24px',
-            fontWeight: 'bold',
-            textAlign: 'center',
-          }}
-        >
-          {qrCode ? title : 'QR code will show here'}
-        </Typography>
-        <QRCodeImage
-          src={qrCode ? qrCode : sample_qr}
-          alt={qrCode ? 'Generated QR Code' : 'Sample QR'}
-          sx={{ opacity: qrCode ? 1 : 0.25 }}
-        />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <StyledButton variant="contained" disabled={!qrCode}>
-            <Save sx={{ color: 'white' }} />
-          </StyledButton>
-          <StyledButton variant="contained" disabled={!qrCode}>
-            <Share sx={{ color: 'white' }} />
-          </StyledButton>
-          <StyledButton
-            variant="contained"
-            onClick={handleDownload}
-            disabled={!qrCode}
-          >
-            <Download sx={{ color: 'white' }} />
-          </StyledButton>
-        </Box>
-      </QRCard>
+      <QRCodeDisplay
+        qrCode={qrCode}
+        title={title}
+        handleDownload={handleDownload}
+      />
     </PageContainer>
   )
 }
