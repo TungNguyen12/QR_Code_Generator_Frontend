@@ -50,7 +50,6 @@ const InputField = styled(TextField)(({ theme }) => ({
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  maxWidth: '80%',
   margin: 'auto',
   alignItems: 'center',
   gap: theme.spacing(4),
@@ -65,6 +64,7 @@ const QRCard = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   flex: 1,
   gap: theme.spacing(2),
+  minWidth: '40%',
 }))
 
 const QRCodeImage = styled('img')({
@@ -280,11 +280,12 @@ const Dashboard: React.FC = () => {
             textAlign: 'center',
           }}
         >
-          {qrCode ? title : 'Sample QR code'}
+          {qrCode ? title : 'QR code will show here'}
         </Typography>
         <QRCodeImage
           src={qrCode ? qrCode : sample_qr}
           alt={qrCode ? 'Generated QR Code' : 'Sample QR'}
+          sx={{ opacity: qrCode ? 1 : 0.25 }}
         />
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <StyledButton variant="contained" disabled={!qrCode}>

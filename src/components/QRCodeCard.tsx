@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Box, Button, Typography } from '@mui/material'
 import { Delete, Share, Download } from '@mui/icons-material'
-
 import { styled } from '@mui/system'
 import { QRCodeSVG } from 'qrcode.react'
 
@@ -16,9 +15,12 @@ const QRCard = styled(Box)(({ theme }) => ({
 interface QRCodeCardProps {
   qrCode: string
   title: string
-  handleDownload: (url: string) => void
+  handleDownload: (url: string, filename: string) => void
   handleDelete: (id: string) => void
   _id: string
+  background_color: string
+  foreground_color: string
+  created_at: string
 }
 
 const IconButton: React.FC<{
@@ -53,7 +55,39 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
   _id,
   handleDownload,
   handleDelete,
+  background_color,
+  foreground_color,
+  created_at,
 }) => {
+  const qrCodeRef = useRef<SVGSVGElement>(null)
+
+  const handleDownloadImage = () => {
+    if (qrCodeRef.current && title) {
+      const svg = qrCodeRef.current
+      if (svg) {
+        const svgData = new XMLSerializer().serializeToString(svg)
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+
+        if (ctx) {
+          // Check if ctx is not null
+          const img = new Image()
+          img.onload = () => {
+            canvas.width = img.width
+            canvas.height = img.height
+            ctx.drawImage(img, 0, 0)
+            const pngUrl = canvas.toDataURL('image/png')
+            handleDownload(pngUrl, title + '.png')
+          }
+          img.src =
+            'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgData)
+        } else {
+          console.error('Canvas context is null')
+        }
+      }
+    }
+  }
+
   return (
     <QRCard>
       <Typography
@@ -68,7 +102,11 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
       <QRCodeSVG
         value={qrCode ? qrCode : 'https://www.google.com/'}
         size={100}
+        bgColor={background_color}
+        fgColor={foreground_color}
+        ref={qrCodeRef}
       />
+      <Typography>{created_at}</Typography>
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <IconButton
@@ -82,7 +120,7 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
           disabled={!qrCode}
         />
         <IconButton
-          onClick={() => handleDownload(qrCode)}
+          onClick={handleDownloadImage}
           icon={<Download sx={{ color: 'white' }} />}
           disabled={!qrCode}
         />

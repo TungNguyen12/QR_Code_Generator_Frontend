@@ -2,8 +2,8 @@ export interface QRCodeType {
   _id: string
   url: string
   title: string
-  createdAt: string
-  foreground_color: string | null
-  background_color: string | null
+  created_at: string
+  foreground_color: string
+  background_color: string
   logo: string | null
 }

@@ -7,7 +7,6 @@ import { QRCodeType } from '../types/qrcode'
 import QRCodeCard from '../components/QRCodeCard'
 import brandlogo from '../assets/images/brandlogo.png'
 import { useCallback } from 'react'
-
 const History = () => {
   const [qrCodes, setQrCodes] = useState<QRCodeType[]>([])
   const [error, setError] = useState('')
@@ -29,15 +28,13 @@ const History = () => {
     }
   }, [token])
 
-  const handleDownload = (url: string) => {
-    if (url) {
-      const link = document.createElement('a')
-      link.href = url
-      link.download = 'qrcode.png'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    }
+  const handleDownload = (url: string, filename: string) => {
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   // Handle QR code deletion
@@ -125,6 +122,9 @@ const History = () => {
                         _id={qrCode._id}
                         handleDownload={handleDownload}
                         handleDelete={handleDelete}
+                        background_color={qrCode.background_color}
+                        foreground_color={qrCode.foreground_color}
+                        created_at={qrCode.created_at}
                       />
                     </Grid>
                   ))
