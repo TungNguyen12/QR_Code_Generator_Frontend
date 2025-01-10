@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppBar, Box, Toolbar, Button, CardMedia, Link } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom' // Import useLocation
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { logout } from '../redux/slices/authSlice'
@@ -43,10 +43,27 @@ const NavBar = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const token = useAppSelector((state) => state.auth.token)
+  const location = useLocation()
 
   const handleLogout = () => {
     dispatch(logout())
   }
+
+  // Function to determine button label and navigation based on route
+  const getQrButtonProps = () => {
+    if (location.pathname === '/history') {
+      return {
+        label: 'Dashboard',
+        onClick: () => navigate('/dashboard'),
+      }
+    } else {
+      return {
+        label: 'My QR',
+        onClick: () => navigate('/history'),
+      }
+    }
+  }
+  const qrButtonProps = getQrButtonProps()
 
   return (
     <AppBar position="static">
@@ -92,8 +109,8 @@ const NavBar = () => {
                   sx={{ backgroundColor: 'white' }}
                 />
                 <NavBarButton
-                  label="My QR"
-                  onClick={() => navigate(`/history`)}
+                  label={qrButtonProps.label}
+                  onClick={qrButtonProps.onClick}
                   variant="contained"
                 />
               </>
