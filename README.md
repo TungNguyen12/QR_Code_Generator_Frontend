@@ -1,46 +1,135 @@
-# Getting Started with Create React App
+# QR Code Generator Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a QR Code Generator frontend built using **React**, **TypeScript**, and **Material UI**. It allows users to generate custom QR codes with various customization options, manage generated QR codes, and perform actions like downloading and deleting QR codes. The app also includes user authentication with JWT and state management using Redux Toolkit with data persistence.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **User Authentication**: Secure login and registration using JWT.
+- **QR Code Generation**: Generate QR codes with custom colors, titles, and logos.
+- **QR Code Management**: Save generated QR codes, view history, download, and delete them.
+- **State Management**: Utilizes Redux Toolkit and `redux-persist` for state management and persistence.
+- **Material UI**: Styled using Material UI components and theming.
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```plaintext
+│   App.css
+│   App.tsx
+│   index.css
+│   index.tsx
+│   theme.ts
+│
+├───assets
+│   └───images
+│           brandlogo.png
+│           junction.svg
+│           navbarwave.svg
+│           platform.png
+│           sample_qr.png
+│
+├───components
+│   │   BackButton.tsx
+│   │   Footer.tsx
+│   │   InputField.tsx
+│   │   NavBar.tsx
+│   │   QRCodeCard.tsx
+│   │   QRCodeDisplay.tsx
+│   │
+│   ├───layout
+│   │       Layout.tsx
+│   │
+│   └───ui
+│           StyledComponents.tsx
+│
+├───hooks
+│       useAppDispatch.ts
+│       useAppSelector.ts
+│       useQrCodeForm.ts
+│
+├───pages
+│   │   Dashboard.tsx
+│   │   History.tsx
+│   │
+│   └───auth
+│           AuthForm.tsx
+│           CheckLogin.tsx
+│           Login.tsx
+│           Register.tsx
+│
+├───redux
+│   │   store.ts
+│   │
+│   └───slices
+│           authSlice.ts
+│           historySlice.ts
+│           qrCodeSlice.ts
+│
+├───types
+│   │   credentials.ts
+│   │   qrcode.ts
+│   │   registerForm.ts
+│   │
+│   └───image
+│           images.d.ts
+│
+├───utils
+│       api.ts
+│       common.ts
+│
+└───validation
+        schemas.ts
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Installation
 
-### `npm test`
+1. **Clone the repository:**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   git clone <repo-url>
+   cd qr_code_generator_frontend
+   ```
 
-### `npm run build`
+2. **Install dependencies:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Setup environment variables:**
+   Create a `.env` file in the root directory with the following:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```plaintext
+   PORT=3000
+   BACKEND_API_URL=https://qrcodegenerator2025-a002816765f7.herokuapp.com/
+   ```
 
-### `npm run eject`
+4. **Run the app:**
+   ```bash
+   npm start
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Usage
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Register/Login**: Access the app and register or log in with your credentials.
+- **Generate QR Code**: Input URL, title, colors, and optional logo to generate a custom QR code.
+- **Manage QR Codes**: View, download, and delete generated QR codes.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Technologies Used
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **React** (18.3.1)
+- **TypeScript**
+- **Material UI** (MUI v6)
+- **Redux Toolkit** with `redux-persist`
+- **React Hook Form**
+- **Yup Validation**
+- **Axios**
 
-## Learn More
+## Scripts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `npm start` – Runs the app in development mode.
+- `npm run build` – Builds the app for production.
+- `npm test` – Launches the test runner.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## License
+
+This project is licensed under the MIT License.
