@@ -4,10 +4,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Box, Typography, Container, Grid, Link } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
-import api from '../utils/api'
-import { RegisterForm } from '../types/registerForm'
-import { registerSchema } from '../validation/schemas'
-import InputField from '../components/InputField'
+import api from '../../utils/api'
+import { RegisterForm } from '../../types/registerForm'
+import InputField from '../../components/InputField'
+import { registerSchema } from '../../validation/schemas'
 
 const Register: React.FC = () => {
   const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
-import Footer from '../components/Footer'
-import NavBar from '../components/NavBar'
+import Footer from '../Footer'
+import NavBar from '../NavBar'
 import { styled } from '@mui/material/styles'
 import { Outlet } from 'react-router-dom'
 
