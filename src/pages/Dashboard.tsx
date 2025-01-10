@@ -19,7 +19,7 @@ import {
   PageContainer,
 } from '../components/ui/StyledComponents'
 import useQrCodeForm from '../hooks/useQrCodeForm'
-import QRCodeDisplay from '../components/QrCodeDisplay'
+import QRCodeDisplay from '../components/QRCodeDisplay'
 
 // Custom Styled Components
 const FormContainer = styled(Paper)(({ theme }) => ({
