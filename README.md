@@ -2,6 +2,8 @@
 
 This project is a QR Code Generator frontend built using **React**, **TypeScript**, and **Material UI**. It allows users to generate custom QR codes with various customization options, manage generated QR codes, and perform actions like downloading and deleting QR codes. The app also includes user authentication with JWT and state management using Redux Toolkit with data persistence.
 
+Visit my <a href="https://qrcodes-junction.netlify.app/" target="_blank" rel="noopener noreferrer">QR Generator app</a>
+
 ## Features
 
 - **User Authentication**: Secure login and registration using JWT.
